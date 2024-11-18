@@ -24,7 +24,7 @@
 using namespace std;
 
 
-
+/*
 void solve()
 {
     int n, ans = 0;
@@ -41,6 +41,28 @@ void solve()
         }
         else
             a[q]++;
+    }
+    cout << ans << endl;
+}
+*/
+void solve()
+{
+    int n, a = 0, ans = 0;
+    cin >> n;
+    while (n--)
+    {
+        int q;
+        cin >> q;
+        q = 1 << (q - 1);
+        if (a & q)
+        {
+           ans++;
+           a &= ~q; 
+        }
+        else
+        {
+            a |= q;
+        }
     }
     cout << ans << endl;
 }
