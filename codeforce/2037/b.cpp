@@ -36,17 +36,21 @@ void solve()
         qwe[a]++;
     }
     n -= 2;
-    for (auto i : qwe)
+    for (int i = 1; i <= n; ++i)
     {
-        if (n / i.first == i.first && i.second >= 2)
+        if (!n % i)
         {
-            cout << i.first << " " << i.first << endl;
-            break;
-        }
-        else if (qwe[n / i.first])
-        {
-            cout << i.first << " " << n / i.first << endl;
-            break;
+            int j = n / i;
+            if (i == j && qwe[i] >= 2)
+            {
+                cout << i << ' ' << j << endl;
+                return;
+            }
+            else if (i != j && qwe[i] >= 1 && qwe[j] >= 1)
+            {
+                cout << i << ' ' << j << endl;
+                return;
+            }
         }
     }
 
@@ -54,6 +58,7 @@ void solve()
 
 signed main()
 {
+    ios::sync_with_stdio(false), cin.tie(0), cout.tie(0);
     int T;
     cin >> T;
     while (T--)
