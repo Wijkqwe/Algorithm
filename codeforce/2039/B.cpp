@@ -3,40 +3,31 @@
 using namespace std;
 
 #define int long long
+#define FAST_IO                                                                \
+    ios::sync_with_stdio(false);                                               \
+    cin.tie(nullptr);
 
 void solve()
 {
     string q;
     cin >> q;
-    //vector<pair<int, int>> qq(0x3f3f3f3f);
-    vector<vector<pair<string, int>>> qwe(0x3f3f3f3f, vector<pair<string, int>>(0x3f3f3f3f));
-    for (int i = 0; i < q.size(); ++i)
+    if (q.size() < 2)
     {
-        qwe[i][i].first = q[i];
-        qwe[i][i].second = 1;
+        cout << "-1\n";
+        return;
     }
-    for (int i = 0; i < q.size(); ++i)
+    for (int i = 0; i < q.size() - 1; ++i)
     {
-        for (int j = i + 1; j < q.size(); ++j)
+        if (q[i] == q[i + 1])
         {
-            qwe[i][j].first = qwe[i][j - 1].first + q[j];
+            cout << q.substr(i, 2) << "\n";
+            return;
         }
-    }
-    for (int i = 0; i < q.size(); ++i)
-    {
-        for (int j = i + 1; j < q.size(); ++j)
+        if (i < q.size() - 2)
         {
-            for (int k = i + 1; k <= j; ++k)
+            if (q[i] != q[i + 1] && q[i] != q[i + 2] && q[i + 1] != q[i + 2])
             {
-                size_t fl = qwe[i][j].first.find(qwe[k][j].first);
-                if (fl == string::npos)
-                {
-                    qwe[i][j].second++;
-                }
-            }
-            if (!qwe[i][j].second % 2)
-            {
-                cout << qwe[i][j].first <<"\n";
+                cout << q.substr(i, 3) << '\n';
                 return;
             }
         }
@@ -47,6 +38,7 @@ void solve()
 signed main()
 {
     ios::sync_with_stdio(false), cin.tie(0), cout.tie(0);
+    // FAST_IO
     int T;
     cin >> T;
     while (T--)
