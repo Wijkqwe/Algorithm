@@ -1,30 +1,31 @@
 #include <bits/stdc++.h>
 
+#define int long long
 #define one void(cout << "-1\n")
 
 using namespace std;
+
+bool cmp(int a, int s) { return a > s; }
 
 void solve()
 {
     int n;
     cin >> n;
-
-    if (n <= 4)
+    if (n == 1 || n == 3)
         return one;
-    for (int i = 1; i <= n; i += 2)
+    if (n == 2)
+        return void(cout << "66\n");
+    string q;
+    for (int i = 0; i < n - 4; ++i)
     {
-        if (i == 5)
-            continue;
-        cout << i << " ";
+        q += "3";
     }
-    cout << "5 4 ";
-    for (int i = 2; i <= n; i += 2)
-    {
-        if (i == 4)
-            continue;
-        cout << i << " ";
-    }
-    cout << "\n";
+
+    if (n % 2)
+        q += "6366";
+    else
+        q += "3366";
+    cout << q + "\n";
 }
 
 signed main()
