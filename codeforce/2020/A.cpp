@@ -2,7 +2,6 @@
 
 using namespace std;
 
-
 void solve()
 {
     int n, k, ans = 0;
@@ -13,7 +12,7 @@ void solve()
     if (k == 1)
     {
         cout << n << '\n';
-        return ;
+        return;
     }
     while (n)
     {
