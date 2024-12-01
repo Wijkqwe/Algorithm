@@ -26,22 +26,21 @@ inline void chkmax(T1 &x, T2 y)
 void solve()
 {
     int n, m, k;
-    vector<int> q(n);
     cin >> n >> m >> k;
-    for (int &i : q)
-    {
-        cin >> i;
-    }
+    // gc();
+    string q;
+    cin >> q;
     int wid = 0, fl = 0, ans = 0;
 
     for (int i = 0; i < n; ++i)
     {
-        if (fl--)
+        if (fl)
         {
-            q[i] = 1;
+            q[i] = '1';
+            --fl;
         }
 
-        if (q[i] == 0)
+        if (q[i] == '0')
         {
             wid++;
         }
@@ -51,8 +50,9 @@ void solve()
         if (wid == m)
         {
             ++ans;
-            fl = k;
-            q[i] = 1;
+            fl = k - 1;
+            q[i] = '1';
+            wid = 0;
         }
     }
     cout << ans << endl;
