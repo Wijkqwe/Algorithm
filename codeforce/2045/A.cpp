@@ -1,6 +1,19 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+template <typename T1, typename T2>
+inline void chkmin(T1 &x, T2 y)
+{
+    if (x > y)
+        x = y;
+}
+template <typename T1, typename T2>
+inline void chkmax(T1 &x, T2 y)
+{
+    if (x < y)
+        x = y;
+}
+
 #define endl "\n"
 #define int long long
 #define gc() getchar()
@@ -17,26 +30,27 @@ inline int read(rint ans = 0, rint sgn = ' ', rint ch = gc())
     return sgn - '-' ? ans : -ans;
 }
 
+bool isvo(char c)
+{
+    if (c != 'A' && c != 'E' && c != 'I' && c != 'O' && c != 'U')
+        return false;
+    else
+        return true;
+}
+
 void solve()
 {
-    int n;
-    cin >> n;
-    vector<int> q(n + 5), w(n + 5);
-    for (int i = 1; i <= n; ++i)
+    string q;
+    int a = -1, s = -1;
+    stack<int> w;
+    cin >> q;
+    for (rint i = 0; i < q.size(); ++i)
     {
-        int a;
-        cin >> a;
-        w[i] = a;
-        q[a]++;
-    }
-
-    for (int i = 1; i <= n; ++i)
-    {
-        --q[w[i]];
-        if ((n - 2) % w[i] == 0 && q[(n - 2) / w[i]])
+        if (isvo(q[i]))
         {
-            cout << w[i] << ' ' << (n - 2) / w[i] << endl;
-            return;
+            if (i - a <= 1)
+            {
+                        }
         }
     }
 }
@@ -44,8 +58,7 @@ void solve()
 signed main()
 {
     ios::sync_with_stdio(false), cin.tie(0), cout.tie(0);
-    int T;
-    cin >> T;
+    int T = 1;
     while (T--)
     {
         solve();
