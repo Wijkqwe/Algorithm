@@ -23,29 +23,25 @@ inline void chkmax(T1 &x, T2 y)
 #define se second
 #define all(c) (c).begin(), (c).end()
 
-inline int read(rint ans = 0, rint sgn = ' ', rint ch = gc())
-{
-    for (; ch < '0' || ch > '9'; sgn = ch, ch = gc());
-    for (; ch >= '0' && ch <= '9'; (ans *= 10) += ch - '0', ch = gc());
-    return sgn - '-' ? ans : -ans;
-}
-
 void solve()
 {
-    int n = read(), m = read(), k = read();
-    string q;
-    cin >> q;
+    int n, m, k;
+    vector<int> q(n);
+    cin >> n >> m >> k;
+    for (int &i : q)
+    {
+        cin >> i;
+    }
     int wid = 0, fl = 0, ans = 0;
 
-    for (char &i : q)
+    for (int i = 0; i < n; ++i)
     {
-        if (fl)
+        if (fl--)
         {
-            i = '1';
-            --fl;
+            q[i] = 1;
         }
 
-        if (i == '0')
+        if (q[i] == 0)
         {
             wid++;
         }
@@ -56,15 +52,17 @@ void solve()
         {
             ++ans;
             fl = k;
-            i = '1';
+            q[i] = 1;
         }
     }
+    cout << ans << endl;
 }
 
 signed main()
 {
     ios::sync_with_stdio(false), cin.tie(0), cout.tie(0);
-    int T = read();
+    int T;
+    cin >> T;
     while (T--)
     {
         solve();

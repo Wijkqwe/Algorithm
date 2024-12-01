@@ -34,22 +34,37 @@ int n, m;
 vector<string> tr;
 vector<vector<int>> tt(20005, vector<int>(20005));
 
-void look(int i, int j)
+int look(int i, int j)
 {
     if (tr[i][j] == 'L')
     {
         if (j != 0)
-            look(i, j - 1);
+            tt[i][j] = look(i, j - 1);
         else
-            tt[i][j] = 0;
+            tt[i][j] = -1;
     }
     if (tr[i][j] == 'R')
     {
         if (j != m - 1)
-            look(i, j + 1);
+            tt[i][j] = look(i, j + 1);
         else
-            tt[i][j] = 0
+            tt[i][j] = 0;
     }
+    if (tr[i][j] == 'U')
+    {
+        if (i != 0)
+            tt[i][j] = look(i - 1, j);
+        else
+            tt[i][j] = 0;
+    }
+    if (tr[i][j] == 'D')
+    {
+        if (i != n - 1)
+            tt[i][j] = look(i + 1, j);
+        else
+            tt[i][j] = 0;
+    }
+    return tt[i][j];
 }
 
 void solve()
