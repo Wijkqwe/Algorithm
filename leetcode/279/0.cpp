@@ -1,22 +1,10 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-template <typename T1, typename T2>
-inline void chkmin(T1 &x, T2 y)
-{
-    if (x > y)
-        x = y;
-}
-template <typename T1, typename T2>
-inline void chkmax(T1 &x, T2 y)
-{
-    if (x < y)
-        x = y;
-}
-
 #define endl "\n"
 #define int long long
 #define gc() getchar()
+#define MOD 100000000
 #define one void(cout << "-1\n")
 #define rint register int
 #define fi first
@@ -30,29 +18,23 @@ inline int read(rint ans = 0, rint sgn = ' ', rint ch = gc())
     return sgn - '-' ? ans : -ans;
 }
 
-bool isvo(char c)
+int numSquares(int n)
 {
-    if (c != 'A' && c != 'E' && c != 'I' && c != 'O' && c != 'U')
-        return false;
-    else
-        return true;
+    vector<int> dp(n + 5);
+    for (int i = 1; i <= n; ++i)
+    {
+        int xmin = 0x3f3f3f;
+        for (int j = 1; j * j <= i; ++j) xmin = min(xmin, dp[i - j * j]);
+        dp[i] = xmin + 1;
+    }
+    return dp[n];
 }
 
 void solve()
 {
-    string q;
-    int a = -1, s = -1;
-    stack<int> w;
-    cin >> q;
-    for (rint i = 0; i < q.size(); ++i)
-    {
-        if (isvo(q[i]))
-        {
-            if (i - a <= 1)
-            {
-            }
-        }
-    }
+    int n = read();
+    numSquares(n);
+    cout << n;
 }
 
 signed main()

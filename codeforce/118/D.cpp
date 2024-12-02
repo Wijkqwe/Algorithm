@@ -1,22 +1,10 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-template <typename T1, typename T2>
-inline void chkmin(T1 &x, T2 y)
-{
-    if (x > y)
-        x = y;
-}
-template <typename T1, typename T2>
-inline void chkmax(T1 &x, T2 y)
-{
-    if (x < y)
-        x = y;
-}
-
 #define endl "\n"
 #define int long long
 #define gc() getchar()
+#define MOD 100000000
 #define one void(cout << "-1\n")
 #define rint register int
 #define fi first
@@ -30,29 +18,29 @@ inline int read(rint ans = 0, rint sgn = ' ', rint ch = gc())
     return sgn - '-' ? ans : -ans;
 }
 
-bool isvo(char c)
-{
-    if (c != 'A' && c != 'E' && c != 'I' && c != 'O' && c != 'U')
-        return false;
-    else
-        return true;
-}
-
 void solve()
 {
-    string q;
-    int a = -1, s = -1;
-    stack<int> w;
-    cin >> q;
-    for (rint i = 0; i < q.size(); ++i)
+    int n1 = read(), n2 = read(), k1 = read(), k2 = read();
+    vector<vector<vector<int>>> dp(
+        n1 + 5, vector<vector<int>>(n2 + 5, vector<int>(2, 0)));
+    dp[0][0][0] = dp[0][0][1] = 1;
+    for (rint i = 0; i <= n1; ++i)
     {
-        if (isvo(q[i]))
+        for (rint j = 0; j <= n2; ++j)
         {
-            if (i - a <= 1)
+            for (rint k = 1; k <= min(k1, i); ++k)
             {
+                dp[i][j][0] += dp[i - k][j][1];
+                dp[i][j][0] %= MOD;
+            }
+            for (rint k = 1; k <= min(k2, j); ++k)
+            {
+                dp[i][j][1] += dp[i][j - k][0];
+                dp[i][j][1] %= MOD;
             }
         }
     }
+    cout << (dp[n1][n2][1] + dp[n1][n2][0]) % MOD << endl;
 }
 
 signed main()
