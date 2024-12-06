@@ -18,60 +18,29 @@ inline int read(int ans = 0, int sgn = ' ', int ch = gc())
     return sgn - '-' ? ans : -ans;
 }
 
-bool cmp(int a, int s)
-{
-    if (a != 0 && s != 0)
-        return a < s;
-    else
-        return a > s;
-}
-
 void solve()
 {
-    int n, k, q1 = 0, q2 = 0, ans = 1, a = 0;
+    int n, k;
     string q;
     cin >> n >> k >> q;
-    for (char i : q)
+    vector<int> st(n + 1);
+    for (int i = n - 1; i >= 0; --i) st[i] = st[i + 1] + (q[i] - '0' ? 1 : -1);
+    sort(st.begin() + 1, st.end());
+    int sum = 0, cut = 1;
+    for (int i = n; i > 1; --i)
     {
-        if (i == '0')
-            ++q1;
-        if (i == '1')
-            ++q2;
+        sum += st[i];
+        ++cut;
+        if (sum >= k)
+            return void(cout << cut << endl);
     }
-    for (int i = 0; i < n - 1; ++i)
-    {
-        if (q[i] == '0')
-        {
-            if (q[i + 1] == '0')
-            {
-                a -= ans - 1;
-                --q1;
-            }
-            else
-            {
-                if ((q2 - (q1 - 1)) * ans + a >= k)
-                {
-                    cout << ans << endl;
-                    return;
-                }
-                else
-                {
-                    a -= ans - 1;
-                    --q1;
-                    ++ans;
-                }
-            }
-        }
-        else
-        {
-                }
-    }
+    cout << "-1\n";
 }
 
 signed main()
 {
     ios::sync_with_stdio(false), cin.tie(0), cout.tie(0);
-    int T;
+    int T = 1;
     cin >> T;
     while (T--)
     {
