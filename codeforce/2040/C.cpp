@@ -12,19 +12,46 @@ using namespace std;
 #define MOD 100000000
 #define one void(cout << "-1\n")
 #define pb(c) push_back(c)
+#define pf(c) push_front(c)
+#define pii pair<int, int>
 #define rint register int
+#define vi vector<int>
 #define fi first
 #define se second
 #define all(c) (c).begin(), (c).end()
 
 void yes() { cout << "YES\n"; }
+
 void no() { cout << "NO\n"; }
 
 void solve()
 {
     int n, k;
     cin >> n >> k;
-    vector<pair<vector<int>, int>> qwe;
+    if (k > ((int)1 << min(n - 1, (int)60)))
+        return one;
+    vi q1(n);
+    int a = 0;
+    --k;
+    while (k)
+    {
+        if (k % 2)
+            q1[n - 2 - a] = 1;
+        k >>= 1;
+        ++a;
+    }
+    deque<int> odp;
+    odp.pb(n);
+    for (int i = n - 2; i != -1; --i)
+    {
+        if (q1[i])
+            odp.pb(i + 1);
+        else
+            odp.pf(i + 1);
+    }
+    for (int i : odp)
+        cout << i << ' ';
+    cout << endl;
 }
 
 signed main()
