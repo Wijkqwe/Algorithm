@@ -13,10 +13,8 @@ using namespace std;
 #define pb(c) push_back(c)
 #define pf(c) push_front(c)
 #define pii pair<int, int>
-#define pll pair<long long, long long>
 #define rint register int
 #define vi vector<int>
-#define vll vector<long long>
 #define fi first
 #define se second
 #define all(c) (c).begin(), (c).end()
@@ -47,36 +45,8 @@ void no() { cout << "NO\n"; }
 
 inline void solve()
 {
-    ll n = read(), ans = 0;
-    int zfl = 0;
-    for (int i = 0; i < n; ++i)
-    {
-        int a = read();
-        if (ans == 0)
-        {
-            if (a)
-                ans = 1;
-        }
-        else if (ans == 1)
-        {
-            if (!a && zfl)
-                ans = 2;
-        }
-        if (ans && !a)
-        {
-            ans = 2;
-        }
-        if (a && !zfl)
-        {
-            ans = 1;
-        }
-        else if (a && zfl)
-        {
-        }
-        if (!a)
-            zfl = 1;
-    }
-    cout << ans << endl;
+    int n = read(), ans = 0;
+    cout << n - 1 << endl;
 }
 
 signed main()

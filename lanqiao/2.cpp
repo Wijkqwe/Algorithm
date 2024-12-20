@@ -47,34 +47,33 @@ void no() { cout << "NO\n"; }
 
 inline void solve()
 {
-    ll n = read(), ans = 0;
-    int zfl = 0;
+    ll n, sum = 0, ti = 0, ma = INT64_MIN, ans = 0, mt = 1;
+    cin >> n;
     for (int i = 0; i < n; ++i)
     {
-        int a = read();
-        if (ans == 0)
+        ll a;
+        cin >> a;
+        sum += a;
+        ++ti;
+        if (ti >= pow(2, mt - 1))
         {
-            if (a)
-                ans = 1;
+            ti = 0;
+            if (sum > ma)
+            {
+                ma = sum;
+                ans = mt;
+                sum = 0;
+            }
+            ++mt;
         }
-        else if (ans == 1)
+    }
+    if (ti)
+    {
+        if (sum > ma)
         {
-            if (!a && zfl)
-                ans = 2;
+            ma = sum;
+            ans = mt;
         }
-        if (ans && !a)
-        {
-            ans = 2;
-        }
-        if (a && !zfl)
-        {
-            ans = 1;
-        }
-        else if (a && zfl)
-        {
-        }
-        if (!a)
-            zfl = 1;
     }
     cout << ans << endl;
 }
@@ -82,7 +81,7 @@ inline void solve()
 signed main()
 {
     fast int T = 1;
-    T = read();
+    // T = read();
     while (T--)
         solve();
     return 0;
