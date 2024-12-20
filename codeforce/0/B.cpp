@@ -47,36 +47,42 @@ void no() { cout << "NO\n"; }
 
 inline void solve()
 {
-    ll n = read();
-    int zfl = 0, ofl = 0;
+    ll n;
+    string q;
+    cin >> n >> q;
+    int pl = 0, pr = n, sl = 0, sr = n - 1;
     for (int i = 0; i < n; ++i)
     {
-        int a = read();
-        if (a)
+        if (q[i] == '.')
+            continue;
+        int l, r;
+        if (q[i] == 'p')
         {
-            if (zfl == 0)
-            {
-                ++ofl;
-            }
-            zfl = 1;
+            r = i;
+            if (r < pr)
+                pr = r;
         }
-        else
+        else if (q[i] == 's')
         {
-            zfl = 0;
+            l = i;
+            r = n - 1;
+            if (l > sl)
+                sl = l;
         }
     }
-    if (ofl == 0)
-        cout << "0\n";
-    else if (ofl == 1)
-        cout << "1\n";
+    if ((pl < sl && pr < sr) || (sl < pl && sr < pr))
+    {
+        no();
+    }
     else
-        cout << "2\n";
+        yes();
 }
 
 signed main()
 {
     fast int T = 1;
-    T = read();
+    // T = read();
+    cin >> T;
     while (T--)
         solve();
     return 0;

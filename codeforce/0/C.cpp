@@ -47,36 +47,48 @@ void no() { cout << "NO\n"; }
 
 inline void solve()
 {
-    ll n = read();
-    int zfl = 0, ofl = 0;
-    for (int i = 0; i < n; ++i)
+    int n = read(), x = read(), y = read();
+    vi res(n);
+    res[0] = 0;
+    res[1] = 1;
+    for (int i = 2; i < n - 1; ++i)
     {
-        int a = read();
-        if (a)
+        if (i == y - 1 && i - 2 == x - 1)
         {
-            if (zfl == 0)
-            {
-                ++ofl;
-            }
-            zfl = 1;
+            res[i] = 2;
         }
         else
         {
-            zfl = 0;
+            if (res[i - 1])
+                res[i] = 0;
+            else
+                res[i] = 1;
         }
     }
-    if (ofl == 0)
-        cout << "0\n";
-    else if (ofl == 1)
-        cout << "1\n";
+    if (n != y)
+    {
+        if (res[n - 2] == 1)
+            res[n - 1] = 2;
+        else
+            res[n - 1] = 1;
+    }
     else
-        cout << "2\n";
+    {
+        if (res[n - 2] == 1 || res[x - 1] == 1)
+            res[n - 1] = 2;
+        else
+            res[n - 1] = 1;
+    }
+    for (int i : res)
+        cout << i << " ";
+    cout << endl;
 }
 
 signed main()
 {
     fast int T = 1;
     T = read();
+    // cin >> T;
     while (T--)
         solve();
     return 0;
