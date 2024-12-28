@@ -23,72 +23,53 @@ using namespace std;
 typedef long long ll;
 typedef unsigned long long ull;
 
-namespace IO
-{
-const int siz = 1 << 18;
-char buf[siz], *p1, *p2;
-inline char getc() { return p1 == p2 && (p2 = buf + fread(p1 = buf, 1, siz, stdin), p1 == p2) ? EOF : *p1++; }
-inline int read()
-{
-    int x = 0;
-    char ch = getc();
-    while (!isdigit(ch))
-        ch = getc();
-    while (isdigit(ch))
-        x = x * 10 + (ch ^ 48), ch = getc();
-    return x;
-}
-}  // namespace IO
-
-using IO::read;
-
 void yes() { cout << "YES\n"; }
 void no() { cout << "NO\n"; }
 
 inline void solve()
 {
-    int n = read(), x = read(), y = read();
-    vi res(n);
-    res[0] = 0;
-    res[1] = 1;
-    for (int i = 2; i < n - 1; ++i)
+    int n;
+    cin >> n;
+    int x, y;
+    cin >> x >> y;
+    --x, --y;
+
+    auto next = [&](int i) -> int
     {
-        if (i == y - 1 && i - 2 == x - 1)
-        {
-            res[i] = 2;
-        }
-        else
-        {
-            if (res[i - 1])
-                res[i] = 0;
-            else
-                res[i] = 1;
-        }
-    }
-    if (n != y)
+        int j = i + 1;
+        if (j == n)
+            j = 0;
+        return j;
+    };
+
+    vector<int> a(n);
+    if (n % 2 == 0)
     {
-        if (res[n - 2] == 1)
-            res[n - 1] = 2;
-        else
-            res[n - 1] = 1;
+        for (int i = 0; i < n; i++)
+            a[i] = i % 2;
+        if (a[x] == a[y])
+            a[x] = 2;
     }
     else
     {
-        if (res[n - 2] == 1 || res[x - 1] == 1)
-            res[n - 1] = 2;
-        else
-            res[n - 1] = 1;
+        int i = x;
+        a[i] = 2;
+        for (int c = 0; c < n - 1; c++)
+        {
+            i = next(i);
+            a[i] = c % 2;
+        }
     }
-    for (int i : res)
-        cout << i << " ";
+
+    for (int i = 0; i < n; i++)
+        cout << a[i] << " ";
     cout << endl;
 }
 
 signed main()
 {
-    fast int T = 1;
-    T = read();
-    // cin >> T;
+    fast ll T = 1;
+    cin >> T;
     while (T--)
         solve();
     return 0;
