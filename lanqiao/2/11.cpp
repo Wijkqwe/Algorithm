@@ -23,14 +23,14 @@ using namespace std;
 typedef long long ll;
 typedef unsigned long long ull;
 
-vi deep(100000 + 5, 0), tree(100000 + 5, 0);
-set<int> sta;
+const int N = 100000 + 5;
+vi deep(N, 0), tree(100000 + 5, 0), vis(N);
 int md = 0, sum = 0;
 
 void todeep(int a)
 {
     stack<int> pa;
-    while (sta.find(a) == sta.end())
+    while (!vis[a])
     {
         pa.push(a);
         a = tree[a];
@@ -38,7 +38,7 @@ void todeep(int a)
     while (!pa.empty())
     {
         a = pa.top();
-        sta.insert(a);
+        vis[a] = 1;
         deep[a] = deep[tree[a]] + 1;
         md = max(md, deep[a]);
         sum++;
@@ -50,17 +50,19 @@ inline void solve()
 {
     int n, m;
     cin >> n >> m;
-    sta.insert(1);
 
     for (int i = 1; i <= n; ++i)
     {
         cin >> tree[i];
+        if (tree[i] == -1)
+            vis[i] = 1;
     }
+
     for (int i = 1; i <= m; ++i)
     {
         int a;
         cin >> a;
-        if (sta.find(a) == sta.end())
+        if (!vis[a])
         {
             todeep(a);
         }
