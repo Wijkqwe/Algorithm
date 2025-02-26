@@ -335,26 +335,35 @@ using namespace Fastio;
 void yes() { cout << "YES\n"; }
 void no() { cout << "NO\n"; }
 
+ll a[500005];
+
 inline void solve()
 {
-    ll n, a = 0, s = 0;
-    string q;
-    cin >> n >> q;
-
-    for (auto i : q)
+    ll n;
+    cin >> n;
+    ll x = 0, mx = 0, l = 1, r = 1;
+    for (int i = 1; i <= n; i++)
     {
-        if (i == '-')
-            ++a;
-        else if (i == '_')
-            ++s;
+        cin >> a[i];
     }
-    if (n < 3 || a < 2 || s < 1)
-        return void(cout << "0\n");
-    ll ans;
-    ans = a / 2;
-    ans *= (a % 2 ? ans + 1 : ans);
-    ans *= s;
-    cout << ans << endl;
+    for (int i = 1; i <= n; i++)
+    {
+        x = 0;
+        for (int j = i + 1; j <= n; j++)
+        {
+            if (a[j] > a[i])
+                x--;
+            else if (a[j] < a[i])
+                x++;
+            if (x > mx)
+            {
+                mx = x;
+                l = i;
+                r = j;
+            }
+        }
+    }
+    cout << l << " " << r << endl;
 }
 
 signed main()
