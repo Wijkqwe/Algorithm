@@ -332,23 +332,32 @@ using namespace Fastio;
 #define cout Fastio::cout
 #define endl Fastio::endl
 
+namespace slove
+{
 void yes() { cout << "YES\n"; }
 void no() { cout << "NO\n"; }
 
-bool cmp1(ll a, ll s) { return a > s; }
+int num[400005];
 
 inline void solve()
 {
-    ll n;
+    int n;
     cin >> n;
-    vll nu(n * 2, -1), vis(n * 2);
-    for (int i = 0; i < n * 2; ++i)
+    for (int i = 1; i <= (n << 1); ++i)
     {
-        cin >> nu[i];
-        vis[nu[i]] = 1;
+        cin >> num[i];
     }
-    sort(all(nu), cmp1);
+    sort(num + 1, num + 1 + (n << 1));
+    ll a = 0, s = 0;
+    for (int i = 1; i < n; ++i)
+        a += num[i];
+    for (int i = n; i <= (n << 1); ++i)
+        s += num[i];
+    for (int i = 1; i < n; ++i)
+        cout << num[n + i - 1] << " " << num[i] << " ";
+    cout << num[(n << 1) - 1] << " " << s - a << " " << num[n << 1] << endl;
 }
+}  // namespace slove
 
 signed main()
 {
@@ -357,6 +366,6 @@ signed main()
     // T = read();
     cin >> T;
     while (T--)
-        solve();
+        slove::solve();
     return 0;
 }
