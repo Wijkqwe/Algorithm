@@ -8,7 +8,6 @@ using namespace std;
     cin.tie(0);                                                                                                        \
     cout.tie(0);
 #define gc() getchar()
-#define MOD 100000000
 #define one void(cout << "-1\n")
 #define pb(c) push_back(c)
 #define pf(c) push_front(c)
@@ -339,15 +338,14 @@ bool cmp1(ll a, ll s) { return a > s; }
 
 inline void solve()
 {
-    ll n;
-    cin >> n;
-    vll nu(n * 2, -1), vis(n * 2);
-    for (int i = 0; i < n * 2; ++i)
-    {
-        cin >> nu[i];
-        vis[nu[i]] = 1;
-    }
-    sort(all(nu), cmp1);
+    ll a, s, d, f;
+    cin >> a >> s >> d >> f;
+    ll q = a + s, w = d + f;
+    ll ad = a * a + d * d, af = a * a + f * f, sd = s * s + d * d, sf = s * s + f * f;
+    if (ad + af == w * w && ad + sd == q * q && sf + sd == w * w)
+        yes();
+    else
+        no();
 }
 
 signed main()
