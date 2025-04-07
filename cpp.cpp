@@ -1,6 +1,8 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+#include <stdlib.h>
+
 // #define endl "\n"
 #define fast                                                                                                           \
     ios::sync_with_stdio(false);                                                                                       \
@@ -339,42 +341,71 @@ namespace slove
 void yes() { cout << "YES\n"; }
 void no() { cout << "NO\n"; }
 
-//: 欧几里得算法求两数 GCD
-int ojld_gcd(int a, int b)
+bool is_time_diff_over_8h(int y1, int mon1, int d1, int h1, int m1, int s1, int y2, int mon2, int d2, int h2, int m2,
+                          int s2)
 {
-    while (b != 0)
+    // 保存原始时区
+    char* old_tz = nullptr;
+    size_t len;
+    _dupenv_s(&old_tz, &len, "TZ");
+
+    // 设置为 UTC 时区
+#ifdef _WIN32
+    _putenv_s("TZ", "UTC");
+#else
+    setenv("TZ", "UTC", 1);
+#endif
+    _tzset();
+
+    // 初始化 tm 结构体
+    struct tm t1 = {};
+    t1.tm_year = y1 - 1900;
+    t1.tm_mon = mon1 - 1;
+    t1.tm_mday = d1;
+    t1.tm_hour = h1;
+    t1.tm_min = m1;
+    t1.tm_sec = s1;
+    t1.tm_isdst = 0;
+
+    struct tm t2 = {};
+    t2.tm_year = y2 - 1900;
+    t2.tm_mon = mon2 - 1;
+    t2.tm_mday = d2;
+    t2.tm_hour = h2;
+    t2.tm_min = m2;
+    t2.tm_sec = s2;
+    t2.tm_isdst = 0;
+
+    // 转换为 UTC 时间戳
+    time_t time1 = _mkgmtime(&t1);  // Windows 专用函数
+    time_t time2 = _mkgmtime(&t2);
+
+    // 恢复原始时区
+    if (old_tz != nullptr)
     {
-        int temp = b;
-        b = a % b;
-        a = temp;
+#ifdef _WIN32
+        _putenv_s("TZ", old_tz);
+#else
+        setenv("TZ", old_tz, 1);
+#endif
     }
-    return a;
-}
-//: Stein算法
-int binary_gcd(int u, int v)
-{
-    if (u == 0)
-        return v;
-    if (v == 0)
-        return u;
-    int shift = __builtin_ctz(u | v);  // 公共因子 2 的幂次
-    u >>= __builtin_ctz(u);            // 移除 u 中的因子 2
-    do
+    else
     {
-        v >>= __builtin_ctz(v);  // 移除 v 中的因子 2
-        if (u > v)
-            swap(u, v);
-        v -= u;
-    } while (v != 0);
-    return u << shift;
+#ifdef _WIN32
+        _putenv_s("TZ", "");
+#else
+        unsetenv("TZ");
+#endif
+    }
+    _tzset();
+    free(old_tz);
+
+    // 计算时间差
+    double diff_seconds = difftime(time1, time2);
+    return abs(diff_seconds) > 28800;  // 8小时=28800秒
 }
 
-inline void solve()
-{
-    int a, s, d, f;
-    cin >> a >> s >> d >> f;
-    cout << binary_gcd(binary_gcd(a, s), binary_gcd(d, f)) << endl;
-}
+inline void solve() {}
 }  // namespace slove
 
 signed main()
@@ -388,4 +419,4 @@ signed main()
     return 0;
 }
 
-/*计算四个正整数 a,b,c,da,b,c,d 的最大公约数(GCD)*/
+/*给定两个时间，包含年、月、日、时、分、秒,判断时间差是否大于8小时*/
