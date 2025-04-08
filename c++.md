@@ -1,6 +1,7 @@
 [TOC]
 
 ***
+
 ### 函数
 
 #### 绝对值
@@ -28,17 +29,43 @@ ForwardIterator lower_bound (ForwardIterator first, ForwardIterator last,  const
 
 
 #### GCC built-in function
-https://gcc.gnu.org/onlinedocs/gcc/Other-Builtins.html
+[Web](https://gcc.gnu.org/onlinedocs/gcc/Other-Builtins.html)
 * `__builtin_ctz`
+这个函数作用是返回输入数二进制表示从最低位开始(右起)的连续的0的个数；如果传入0则行为未定义。三个函数分别用于unsigned int，unsigned long以及unsigned long long
 `int __builtin_ctz (unsigned int x)`
 Returns the number of trailing 0-bits in x, starting at the least significant bit position. If x is 0, the result is undefined.
 `int __builtin_ctzl (unsigned long)`
 Similar to __builtin_ctz, except the argument type is unsigned long.
 `int __builtin_ctzll (unsigned long long)`
 Similar to __builtin_ctz, except the argument type is unsigned long long.
+```c
+    int __builtin_ctzl(unsigned long x) 
+    {
+        for (int i = 0; i != 64; ++i)
+            if (x >> i & 1) 
+                return i;
+        return 0;
+    }
+```
+```c
+    int __builtin_ctzl(unsigned long x) 
+    {
+        int r = 63;
+        x &= ~x + 1;
+        if (x & 0x00000000FFFFFFFF) r -= 32;
+        if (x & 0x0000FFFF0000FFFF) r -= 16;
+        if (x & 0x00FF00FF00FF00FF) r -= 8;
+        if (x & 0x0F0F0F0F0F0F0F0F) r -= 4;
+        if (x & 0x3333333333333333) r -= 2;
+        if (x & 0x5555555555555555) r -= 1;
+        return r;
+    }
+```
+
 
 
 ***
+
 ### 输出
 
 #### `cout << " \n"[i == 0];`
