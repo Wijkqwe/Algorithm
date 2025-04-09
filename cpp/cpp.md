@@ -89,17 +89,91 @@ i != 0时为false,输出" ";
 
 ***
 
-### STL
+### STL(Standard Template Library)
+`<algorithm>`
+`<deque>`
+`<functional>`
+`<iterator>`
+`<vector>`
+`<list>`
+`<map>`
+`<memory>`
+`<numeric>`
+`<queue>`
+`<set>`
+`<stack>`
+`<utility>`
+
+
 
 #### 迭代器`<iterator>`
+
+
+
+##### 种类
+
+* 随机访问迭代器
+    * std::vector
+    * std::deque
+    * std::array
+- 双向迭代器
+    - std::list
+    - std::set
+    - std::multiset
+    - std::map
+    - std::mutimap
+* 前向迭代器
+    * std::forward_lsit
+    * std::unordered_set
+    * std::unordered_map
+    * std::unordered_multiset
+    * std::unordered_muiltimap
+
 
 ##### 距离
 * std::distance()`<iterator>`
 返回两个迭代器之间的距离
     * 对随机访问迭代器
     O(1)首尾迭代器相减
-    * 对双向访问迭代器
+    * 对双向迭代器
     O(n)遍历一遍
+
+
+
+#### `<vector>`
+
+##### std::vector
+
+* emplace_back()
+允许在容器尾部直接构造元素,省去了拷贝或移动元素的过程
+    
+    ```cpp
+    vector<pair<int, int>> v;
+    v.emplace_back(1, 1);
+    ```
+
+
+
+***
+
+
+### Standard Library
+
+
+#### `<tuple>`
+Added in C++11
+
+##### std::tuple
+元组,类似结构体
+
+    ```cpp
+    template<class... Types>
+     class tuple;
+    ```
+
+按照索引顺序访问其中的元素
+大小在编译时确定，不支持动态添加或移除元素
+
 
 
 
@@ -107,4 +181,24 @@ i != 0时为false,输出" ";
 
 ***
 
+### 语法
 
+
+#### 循环
+
+* `for (auto [i, i] : v){}`
+    ```cpp
+    vector<pair<int, int>> v;
+    for (auto [i, j] : v){}
+    //: ||
+    for (auto ij : v)
+    {
+        auto i = ij.first;
+        auto j = ij.second;
+    }
+    ```
+
+
+
+
+***
