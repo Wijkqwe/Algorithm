@@ -341,71 +341,89 @@ namespace slove
 void yes() { cout << "YES\n"; }
 void no() { cout << "NO\n"; }
 
-bool is_time_diff_over_8h(int y1, int mon1, int d1, int h1, int m1, int s1, int y2, int mon2, int d2, int h2, int m2,
-                          int s2)
+inline void solve()
 {
-    // 保存原始时区
-    char* old_tz = nullptr;
-    size_t len;
-    _dupenv_s(&old_tz, &len, "TZ");
+    int n;
+    cin >> n;
 
-    // 设置为 UTC 时区
-#ifdef _WIN32
-    _putenv_s("TZ", "UTC");
-#else
-    setenv("TZ", "UTC", 1);
-#endif
-    _tzset();
+    vector<vector<pair<int, int>>> adj(n + 1);  // 邻接表，顶点编号从1开始
+    vector<tuple<int, int, int>> edges;         // 存储所有边(u, v, w)
 
-    // 初始化 tm 结构体
-    struct tm t1 = {};
-    t1.tm_year = y1 - 1900;
-    t1.tm_mon = mon1 - 1;
-    t1.tm_mday = d1;
-    t1.tm_hour = h1;
-    t1.tm_min = m1;
-    t1.tm_sec = s1;
-    t1.tm_isdst = 0;
-
-    struct tm t2 = {};
-    t2.tm_year = y2 - 1900;
-    t2.tm_mon = mon2 - 1;
-    t2.tm_mday = d2;
-    t2.tm_hour = h2;
-    t2.tm_min = m2;
-    t2.tm_sec = s2;
-    t2.tm_isdst = 0;
-
-    // 转换为 UTC 时间戳
-    time_t time1 = _mkgmtime(&t1);  // Windows 专用函数
-    time_t time2 = _mkgmtime(&t2);
-
-    // 恢复原始时区
-    if (old_tz != nullptr)
+    // 读取n-1条边
+    for (int i = 0; i < n - 1; ++i)
     {
-#ifdef _WIN32
-        _putenv_s("TZ", old_tz);
-#else
-        setenv("TZ", old_tz, 1);
-#endif
+        int u, v, w;
+        cin >> u >> v >> w;
+        adj[u].emplace_back(v, w);
+        adj[v].emplace_back(u, w);
+        edges.emplace_back(u, v, w);
     }
-    else
-    {
-#ifdef _WIN32
-        _putenv_s("TZ", "");
-#else
-        unsetenv("TZ");
-#endif
-    }
-    _tzset();
-    free(old_tz);
 
-    // 计算时间差
-    double diff_seconds = difftime(time1, time2);
-    return abs(diff_seconds) > 28800;  // 8小时=28800秒
+    // 找到权值最大的边u-v
+    int max_w = -1, u = 0, v = 0;
+    for (const auto& e : edges)
+    {
+        int a = get<0>(e), b = get<1>(e), w = get<2>(e);
+        if (w > max_w)
+        {
+            max_w = w;
+            u = a;
+            v = b;
+        }
+    }
+
+    // 分割树为两个子树S1和S2，并标记节点所属子树
+    vector<int> subtree(n + 1, -1);  // -1未访问，0属于S1，1属于S2
+    queue<int> q;
+
+    // BFS标记S1（从u出发，不经过v）
+    q.push(u);
+    subtree[u] = 0;
+    while (!q.empty())
+    {
+        int node = q.front();
+        q.pop();
+        for (const auto& [neighbor, _] : adj[node])
+        {
+            if (neighbor != v && subtree[neighbor] == -1)
+            {
+                subtree[neighbor] = 0;
+                q.push(neighbor);
+            }
+        }
+    }
+
+    // 标记S2（剩余节点自动归为S2，包括v）
+    for (int i = 1; i <= n; ++i)
+    {
+        if (subtree[i] == -1)
+            subtree[i] = 1;
+    }
+
+    // 在S1中选择一个非u的节点（优先选邻接点）
+    int a = u;
+    for (const auto& [neighbor, _] : adj[u])
+    {
+        if (neighbor != v && subtree[neighbor] == 0)
+        {
+            a = neighbor;
+            break;
+        }
+    }
+
+    // 在S2中选择一个非v的节点（优先选邻接点）
+    int b = v;
+    for (const auto& [neighbor, _] : adj[v])
+    {
+        if (neighbor != u && subtree[neighbor] == 1)
+        {
+            b = neighbor;
+            break;
+        }
+    }
+
+    cout << a << " " << b << endl;
 }
-
-inline void solve() {}
 }  // namespace slove
 
 signed main()
@@ -419,4 +437,4 @@ signed main()
     return 0;
 }
 
-/*给定两个时间，包含年、月、日、时、分、秒,判断时间差是否大于8小时*/
+/*给定一棵带权树，任意增加一条边(不允许出现重边与自环)，使得连接后的树的最小生成树权值和最小，输出新增边的两个点的标号*/
