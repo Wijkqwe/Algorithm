@@ -38,7 +38,8 @@ Returns the number of trailing 0-bits in x, starting at the least significant bi
 Similar to __builtin_ctz, except the argument type is unsigned long.
 `int __builtin_ctzll (unsigned long long)`
 Similar to __builtin_ctz, except the argument type is unsigned long long.
-```c
+
+    ```c
     int __builtin_ctzl(unsigned long x) 
     {
         for (int i = 0; i != 64; ++i)
@@ -46,8 +47,8 @@ Similar to __builtin_ctz, except the argument type is unsigned long long.
                 return i;
         return 0;
     }
-```
-```c
+    ```
+    ```c
     int __builtin_ctzl(unsigned long x) 
     {
         int r = 63;
@@ -60,7 +61,7 @@ Similar to __builtin_ctz, except the argument type is unsigned long long.
         if (x & 0x5555555555555555) r -= 1;
         return r;
     }
-```
+    ```
 
 
 
@@ -88,5 +89,22 @@ i != 0时为false,输出" ";
 
 ***
 
+### STL
+
+#### 迭代器`<iterator>`
+
+##### 距离
+* std::distance()`<iterator>`
+返回两个迭代器之间的距离
+    * 对随机访问迭代器
+    O(1)首尾迭代器相减
+    * 对双向访问迭代器
+    O(n)遍历一遍
+
+
+
+
+
+***
 
 
