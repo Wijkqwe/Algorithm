@@ -10,7 +10,6 @@ using namespace std;
     cin.tie(0);                                                                                                        \
     cout.tie(0);
 #define gc() getchar()
-#define MOD 100000000
 #define one void(cout << "-1\n")
 #define pb(c) push_back(c)
 #define pf(c) push_front(c)
@@ -338,75 +337,52 @@ using namespace Fastio;
 
 namespace slove
 {
+#define MOD 1000000007
+
 void yes() { cout << "YES\n"; }
 void no() { cout << "NO\n"; }
-
-vector<int> findKthElements(int n, vector<vector<int>>& sequences, int i, int j)
+//: 快速模幂运算 a ^ s mod d
+ll quick_mod_pow(ll a, ll s, ll d)
 {
-    using Element = tuple<int, int, int>;  // (value, sequence_index, element_index)
-    priority_queue<Element, vector<Element>, greater<Element>> min_heap;
-
-    // 初始化堆：所有序列的首元素入队
-    for (int seq_idx = 0; seq_idx < n; ++seq_idx)
+    ll res = 1;
+    a %= d;
+    while (s)
     {
-        if (!sequences[seq_idx].empty())
-        {
-            min_heap.emplace(sequences[seq_idx][0], seq_idx, 0);
-        }
+        if (s & 1)
+            res = (res * a) % d;
+        s >>= 1;
+        a = (a * a) % d;
     }
-
-    vector<int> result;
-    int count = 0;
-    while (!min_heap.empty() && count <= j)
+    return res;
+}
+//: 快速幂求逆元：b^{-1} mod MOD
+ll inv(ll b)
+{
+    ll res = 1, exp = MOD - 2;
+    while (exp > 0)
     {
-        auto [value, seq_idx, elem_idx] = min_heap.top();
-        min_heap.pop();
-        count++;
-
-        // 收集第i到第j个元素
-        if (count >= i && count <= j)
-        {
-            result.push_back(value);
-            if (count == j)
-                break;  // 提前终止
-        }
-
-        // 将当前序列的下一个元素入队
-        if (elem_idx + 1 < sequences[seq_idx].size())
-        {
-            int next_val = sequences[seq_idx][elem_idx + 1];
-            min_heap.emplace(next_val, seq_idx, elem_idx + 1);
-        }
+        if (exp % 2 == 1)
+            res = (1LL * res * b) % MOD;
+        b = (1LL * b * b) % MOD;
+        exp /= 2;
     }
-
-    return result;
+    return res;
 }
 
 inline void solve()
 {
-    int n, i, j;
-    cin >> n;
-
-    vector<vector<int>> sequences(n);
-    for (int idx = 0; idx < n; ++idx)
+    ll n, b, a_mod = 1, a_mod_b = 1;
+    cin >> n >> b;
+    for (int i = 0; i < n; ++i)
     {
-        int k;
-        cin >> k;
-        sequences[idx].resize(k);
-        for (int j = 0; j < k; ++j)
-        {
-            cin >> sequences[idx][j];
-        }
+        ll a, s;
+        cin >> a >> s;
+        a_mod = (a_mod * quick_mod_pow(a, s, MOD)) % MOD;
+        a_mod_b = (a_mod_b * quick_mod_pow(a, s, b)) % b;
     }
-
-    cin >> i >> j;
-    vector<int> res = findKthElements(n, sequences, i, j);
-
-    for (int num : res)
-    {
-        cout << num << " ";
-    }
-    cout << endl;
+    ll b_inv = inv(b);
+    cout << a_mod << endl << a_mod_b << endl << b_inv << endl;
+    cout << ((a_mod - a_mod_b + MOD) % MOD * b_inv) % MOD << endl;
 }
 }  // namespace slove
 
@@ -421,4 +397,4 @@ signed main()
     return 0;
 }
 
-/*给定一棵带权树，任意增加一条边(不允许出现重边与自环)，使得连接后的树的最小生成树权值和最小，输出新增边的两个点的标号*/
+/*给定两个整数a=a_1^s_1*a_2^s_2*...*a_n^s_n, b,求a和b的商的下取整值mod 10^9+7*/
