@@ -158,19 +158,41 @@ i != 0时为false,输出" ";
 
 
 ### Standard Library
+[Web](https://en.cppreference.com/w/cpp/standard_library)
 
 
 #### `<tuple>`
 Added in C++11
 
+
+##### std::get<index>()
+```cpp
+std::tuple<bool, int, std::string> a(true, 0, "qwe");
+bool s = std::get<0>(a);
+int d = std::get<1>(a);
+std::get<0>(a) = false;
+```
+
+
+##### std::ignore
+任何值均可赋给而无效果的未指定类型的对象
+目的是令 std::tie 在解包 std::tuple 时作为不使用的参数的占位符使用
+
+
+##### std::tie()
+```cpp
+std::tuple<bool, int, std::string> a(true, 0, "qwe");
+bool s;
+std::tie(s, std::ignore, std::ignore) = a;
+```
+
+
 ##### std::tuple
 元组,类似结构体
-
-    ```cpp
-    template<class... Types>
-     class tuple;
-    ```
-
+```cpp
+template<class... Types>
+class tuple;
+```
 按照索引顺序访问其中的元素
 大小在编译时确定，不支持动态添加或移除元素
 

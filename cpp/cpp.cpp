@@ -341,88 +341,72 @@ namespace slove
 void yes() { cout << "YES\n"; }
 void no() { cout << "NO\n"; }
 
+vector<int> findKthElements(int n, vector<vector<int>>& sequences, int i, int j)
+{
+    using Element = tuple<int, int, int>;  // (value, sequence_index, element_index)
+    priority_queue<Element, vector<Element>, greater<Element>> min_heap;
+
+    // 初始化堆：所有序列的首元素入队
+    for (int seq_idx = 0; seq_idx < n; ++seq_idx)
+    {
+        if (!sequences[seq_idx].empty())
+        {
+            min_heap.emplace(sequences[seq_idx][0], seq_idx, 0);
+        }
+    }
+
+    vector<int> result;
+    int count = 0;
+    while (!min_heap.empty() && count <= j)
+    {
+        auto [value, seq_idx, elem_idx] = min_heap.top();
+        min_heap.pop();
+        count++;
+
+        // 收集第i到第j个元素
+        if (count >= i && count <= j)
+        {
+            result.push_back(value);
+            if (count == j)
+                break;  // 提前终止
+        }
+
+        // 将当前序列的下一个元素入队
+        if (elem_idx + 1 < sequences[seq_idx].size())
+        {
+            int next_val = sequences[seq_idx][elem_idx + 1];
+            min_heap.emplace(next_val, seq_idx, elem_idx + 1);
+        }
+    }
+
+    return result;
+}
+
 inline void solve()
 {
-    int n;
+    int n, i, j;
     cin >> n;
 
-    vector<vector<pair<int, int>>> adj(n + 1);  // 邻接表，顶点编号从1开始
-    vector<tuple<int, int, int>> edges;         // 存储所有边(u, v, w)
-
-    // 读取n-1条边
-    for (int i = 0; i < n - 1; ++i)
+    vector<vector<int>> sequences(n);
+    for (int idx = 0; idx < n; ++idx)
     {
-        int u, v, w;
-        cin >> u >> v >> w;
-        adj[u].emplace_back(v, w);
-        adj[v].emplace_back(u, w);
-        edges.emplace_back(u, v, w);
-    }
-
-    // 找到权值最大的边u-v
-    int max_w = -1, u = 0, v = 0;
-    for (const auto& e : edges)
-    {
-        int a = get<0>(e), b = get<1>(e), w = get<2>(e);
-        if (w > max_w)
+        int k;
+        cin >> k;
+        sequences[idx].resize(k);
+        for (int j = 0; j < k; ++j)
         {
-            max_w = w;
-            u = a;
-            v = b;
+            cin >> sequences[idx][j];
         }
     }
 
-    // 分割树为两个子树S1和S2，并标记节点所属子树
-    vector<int> subtree(n + 1, -1);  // -1未访问，0属于S1，1属于S2
-    queue<int> q;
+    cin >> i >> j;
+    vector<int> res = findKthElements(n, sequences, i, j);
 
-    // BFS标记S1（从u出发，不经过v）
-    q.push(u);
-    subtree[u] = 0;
-    while (!q.empty())
+    for (int num : res)
     {
-        int node = q.front();
-        q.pop();
-        for (const auto& [neighbor, _] : adj[node])
-        {
-            if (neighbor != v && subtree[neighbor] == -1)
-            {
-                subtree[neighbor] = 0;
-                q.push(neighbor);
-            }
-        }
+        cout << num << " ";
     }
-
-    // 标记S2（剩余节点自动归为S2，包括v）
-    for (int i = 1; i <= n; ++i)
-    {
-        if (subtree[i] == -1)
-            subtree[i] = 1;
-    }
-
-    // 在S1中选择一个非u的节点（优先选邻接点）
-    int a = u;
-    for (const auto& [neighbor, _] : adj[u])
-    {
-        if (neighbor != v && subtree[neighbor] == 0)
-        {
-            a = neighbor;
-            break;
-        }
-    }
-
-    // 在S2中选择一个非v的节点（优先选邻接点）
-    int b = v;
-    for (const auto& [neighbor, _] : adj[v])
-    {
-        if (neighbor != u && subtree[neighbor] == 1)
-        {
-            b = neighbor;
-            break;
-        }
-    }
-
-    cout << a << " " << b << endl;
+    cout << endl;
 }
 }  // namespace slove
 
