@@ -341,48 +341,77 @@ namespace slove
 
 void yes() { cout << "YES\n"; }
 void no() { cout << "NO\n"; }
-//: 快速模幂运算 a ^ s mod d
-ll quick_mod_pow(ll a, ll s, ll d)
+
+struct Subsequence
 {
-    ll res = 1;
-    a %= d;
-    while (s)
-    {
-        if (s & 1)
-            res = (res * a) % d;
-        s >>= 1;
-        a = (a * a) % d;
-    }
-    return res;
-}
-//: 快速幂求逆元：b^{-1} mod MOD
-ll inv(ll b)
+        vector<int> seq;
+        int start;
+        int end;
+
+        bool operator<(const Subsequence& other) const
+        {
+            return seq < other.seq;  // 用于最大堆的比较
+        }
+};
+
+vector<int> findKthLargestSubsequence(const vector<int>& a, int k)
 {
-    ll res = 1, exp = MOD - 2;
-    while (exp > 0)
+    priority_queue<Subsequence> max_heap;
+    int n = a.size();
+
+    // 初始化堆：将所有单元素子序列加入堆
+    for (int i = 0; i < n; ++i)
     {
-        if (exp % 2 == 1)
-            res = (1LL * res * b) % MOD;
-        b = (1LL * b * b) % MOD;
-        exp /= 2;
+        Subsequence sub;
+        sub.seq.push_back(a[i]);
+        sub.start = i;
+        sub.end = i;
+        max_heap.push(sub);
     }
-    return res;
+
+    vector<int> result;
+    int count = 0;
+
+    while (!max_heap.empty())
+    {
+        Subsequence current = max_heap.top();
+        max_heap.pop();
+        count++;
+
+        if (count == k)
+        {
+            result = current.seq;
+            break;
+        }
+
+        // 扩展当前子序列：向右添加一个元素
+        if (current.end + 1 < n)
+        {
+            Subsequence next = current;
+            next.seq.push_back(a[current.end + 1]);
+            next.end++;
+            max_heap.push(next);
+        }
+    }
+
+    return result;
 }
 
 inline void solve()
 {
-    ll n, b, a_mod = 1, a_mod_b = 1;
-    cin >> n >> b;
-    for (int i = 0; i < n; ++i)
+    int n, k;
+    cin >> n >> k;
+    vector<int> a(n);
+    for (int& i : a)
+        cin >> i;
+
+    vector<int> result = findKthLargestSubsequence(a, k);
+
+    for (int num : result)
     {
-        ll a, s;
-        cin >> a >> s;
-        a_mod = (a_mod * quick_mod_pow(a, s, MOD)) % MOD;
-        a_mod_b = (a_mod_b * quick_mod_pow(a, s, b)) % b;
+        cout << num << " ";
     }
-    ll b_inv = inv(b);
-    cout << a_mod << endl << a_mod_b << endl << b_inv << endl;
-    cout << ((a_mod - a_mod_b + MOD) % MOD * b_inv) % MOD << endl;
+    cout << endl;
 }
 }  // namespace slove
 
@@ -391,10 +420,10 @@ signed main()
     fast;
     ll T = 1;
     // T = read();
-    // cin >> T;
+    cin >> T;
     while (T--)
         slove::solve();
     return 0;
 }
 
-/*给定两个整数a=a_1^s_1*a_2^s_2*...*a_n^s_n, b,求a和b的商的下取整值mod 10^9+7*/
+/*给定一个由n个正整数组成的序列a，求其所有连续子序列中按字典序排序后的第k大的连续子序列。*/
