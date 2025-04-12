@@ -10,12 +10,81 @@
 * fabs()
 浮点数绝对值
 
+
 #### 位运算
 * lowbit()
 计算二进制中最低位的1
-`
-#define lowbit(x) ((x)&(-x))
-`
+`#define lowbit(x) ((x)&(-x))`
+
+
+#### 幂运算
+
+##### 快速模幂运算
+```cpp
+//: 快速模幂运算 a ^ s mod d
+ll quick_mod_pow(ll a, ll s, ll d)
+{
+    ll res = 1;
+    a %= d;
+    while (s)
+    {
+        if (s & 1)
+            res = (res * a) % d;
+        s >>= 1;
+        a = (a * a) % d;
+    }
+    return res;
+}
+```
+
+
+#### gcd最大公约数
+
+##### std::gcd()
+Add in C++17`<numeric>`
+
+##### std::__gcd()
+`<algorithm>`特定于libstdc++内部
+
+##### 欧几里得算法
+```cpp
+//: 欧几里得算法求两数 GCD
+int ojld_gcd(int a, int b)
+{
+    while (b != 0)
+    {
+        int temp = b;
+        b = a % b;
+        a = temp;
+    }
+    return a;
+}
+```
+
+##### Stein算法
+```cpp
+//: Stein算法
+int binary_gcd(int u, int v)
+{
+    if (u == 0)
+        return v;
+    if (v == 0)
+        return u;
+    int shift = __builtin_ctz(u | v);  // 公共因子 2 的幂次
+    u >>= __builtin_ctz(u);            // 移除 u 中的因子 2
+    do
+    {
+        v >>= __builtin_ctz(v);  // 移除 v 中的因子 2
+        if (u > v)
+            swap(u, v);
+        v -= u;
+    } while (v != 0);
+    return u << shift;
+}
+```
+
+
+
 
 #### 查找
 * lower_bound()`#include <algorithm>`
@@ -153,12 +222,104 @@ i != 0时为false,输出" ";
     ```
 
 
+* 比较
+适用于比较运算符`==`,`!=`,`>=`,`<=`,`>`,`<`
+    * 长度不同时
+    短vector < 长vector
+    * 长度相同时
+    基于字典序比较
+
+
 
 ***
 
 
 ### Standard Library
 [Web](https://en.cppreference.com/w/cpp/standard_library)
+
+
+#### `<algorithm>`
+
+##### std::all_of, std::any_of, std::none_of
+
+##### std::copy
+
+##### std::min
+
+##### std::sort
+
+#### `<cctype>`
+`<ctype.h>` in C standard library
+
+##### std::isalnum
+字母或数字则true
+
+##### std::isalpha
+字母则true
+
+##### std::isdigit
+数字则true
+
+
+#### `<exception>`
+
+##### std::exception
+Provides consistent interface to handle errors through the throw expression
+
+#### `<fstream>`
+
+##### std::ifstream
+
+##### peek()
+字符流下一个
+
+#### `<functional>`
+
+##### std::function
+通用的多态函数包装器
+对C++中现有的可调用实体的一种类型安全的包裹
+
+
+##### `std::greater<T>`
+
+
+##### `std::less<T>`
+
+
+#### `<iostream>`
+
+##### `std::cerr`
+
+
+
+#### `<memory>`
+
+##### `std::make_unique`
+C++14
+构建unique_ptr指向新对象
+
+##### `std::make_unique_for_overwrite`
+C++20
+
+##### std::share_ptr
+Added in C++11
+智能指针，它通过指针保留对象的共享所有权
+
+##### std::unique_ptr
+Added in C++11
+智能指针
+
+
+#### `<numeric>`
+
+##### std::gcd()
+Added in C++17
+
+
+#### `<stdexcept>`
+
+#### std::runtime_error
+class, 
 
 
 #### `<tuple>`
@@ -179,6 +340,9 @@ std::get<0>(a) = false;
 目的是令 std::tie 在解包 std::tuple 时作为不使用的参数的占位符使用
 
 
+##### std::make_tuple
+
+
 ##### std::tie()
 ```cpp
 std::tuple<bool, int, std::string> a(true, 0, "qwe");
@@ -196,7 +360,35 @@ class tuple;
 按照索引顺序访问其中的元素
 大小在编译时确定，不支持动态添加或移除元素
 
+#### `<unordered_map>`
 
+##### std::unordered_map<Key,T,Hash,KeyEqual,Allocator>::count
+计算给定键的个数, 即检查是否存在键
+
+
+
+#### `<utility>`
+
+##### std::move
+将左值转化为右值, 可以被右值引用指向
+实现移动语义, 避免拷贝, 从而提升性能
+
+
+#### other
+
+##### dynamic_cast
+安全地将指针和引用沿继承层次结构向上、向下和横向转换为类
+存在开销, 主要用于向下
+
+
+***
+
+
+### Third-Party Library
+
+#### <gmpxx.h>
+GNU Multiple Precision Arithmetic Library (GMP)
+大整数算术运算
 
 
 
@@ -221,6 +413,40 @@ class tuple;
     ```
 
 
+#### 指令
+
+##### pragma
+预处理器指令
+
+
+
+#### const
+
+函数名前: 返回值为const
+函数名后: 函数不能修改class的成员
+
+
+#### virtual
+虚函数, 位置在函数返回类型前
+函数声明中加, 函数实现中不加
+
+
+#### override
+重写虚函数, 位置在函数名后
+函数声明中加, 函数实现中不加
+
+
+#### static
+函数声明中加, 函数实现中不加
+
+
+
 
 
 ***
+
+
+### CRTP
+Curiously Recurring Template Pattern
+奇异递归模板模式
+
