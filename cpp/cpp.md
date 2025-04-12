@@ -153,12 +153,37 @@ i != 0时为false,输出" ";
     ```
 
 
+* 比较
+适用于比较运算符`==`,`!=`,`>=`,`<=`,`>`,`<`
+    * 长度不同时
+    短vector < 长vector
+    * 长度相同时
+    基于字典序比较
+
+
 
 ***
 
 
 ### Standard Library
 [Web](https://en.cppreference.com/w/cpp/standard_library)
+
+
+
+
+#### `<functional>`
+
+
+##### `std::greater<T>`
+
+
+##### `std::less<T>`
+
+
+
+
+
+
 
 
 #### `<tuple>`
@@ -177,6 +202,9 @@ std::get<0>(a) = false;
 ##### std::ignore
 任何值均可赋给而无效果的未指定类型的对象
 目的是令 std::tie 在解包 std::tuple 时作为不使用的参数的占位符使用
+
+
+##### std::make_tuple
 
 
 ##### std::tie()
