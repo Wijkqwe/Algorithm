@@ -170,6 +170,12 @@ i != 0时为false,输出" ";
 
 
 
+#### `<exception>`
+
+##### std::exception
+Provides consistent interface to handle errors through the throw expression
+
+
 
 #### `<functional>`
 
@@ -180,7 +186,21 @@ i != 0时为false,输出" ";
 ##### `std::less<T>`
 
 
+#### `<iostream>`
 
+##### std::cerr
+
+
+
+#### `<memory>`
+
+##### std::share_ptr
+Added in C++11
+智能指针，它通过指针保留对象的共享所有权
+
+##### std::unique_ptr
+Added in C++11
+智能指针
 
 
 
@@ -225,9 +245,11 @@ class tuple;
 大小在编译时确定，不支持动态添加或移除元素
 
 
+#### `<utility>`
 
-
-
+##### std::move
+将左值转化为右值, 可以被右值引用指向
+实现移动语义, 避免拷贝, 从而提升性能
 
 ***
 
@@ -248,6 +270,11 @@ class tuple;
     }
     ```
 
+
+#### 指令
+
+##### pragma
+预处理器指令
 
 
 
