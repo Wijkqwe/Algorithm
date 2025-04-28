@@ -170,6 +170,15 @@ i != 0时为false,输出" ";
 
 
 
+#### `<algorithm>`
+
+#### std::all_of, std::any_of, std::none_of
+
+#### std::copy
+
+#### std::sort
+
+
 #### `<exception>`
 
 ##### std::exception
@@ -194,6 +203,13 @@ Provides consistent interface to handle errors through the throw expression
 
 #### `<memory>`
 
+##### std::make_unique
+C++14
+构建unique_ptr指向新对象
+
+##### std::make_unique_for_overwrite
+C++20
+
 ##### std::share_ptr
 Added in C++11
 智能指针，它通过指针保留对象的共享所有权
@@ -203,7 +219,10 @@ Added in C++11
 智能指针
 
 
+#### `<stdexcept>`
 
+#### std::runtime_error
+class, 
 
 
 #### `<tuple>`
@@ -251,6 +270,7 @@ class tuple;
 将左值转化为右值, 可以被右值引用指向
 实现移动语义, 避免拷贝, 从而提升性能
 
+
 ***
 
 ### 语法
@@ -275,6 +295,29 @@ class tuple;
 
 ##### pragma
 预处理器指令
+
+
+
+#### const
+
+函数名前: 返回值为const
+函数名后: 函数不能修改class的成员
+
+
+#### virtual
+虚函数, 位置在函数返回类型前
+函数声明中加, 函数实现中不加
+
+
+#### override
+重写虚函数, 位置在函数名后
+函数声明中加, 函数实现中不加
+
+
+#### static
+函数声明中加, 函数实现中不加
+
+
 
 
 
