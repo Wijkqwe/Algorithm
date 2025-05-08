@@ -172,11 +172,25 @@ i != 0时为false,输出" ";
 
 #### `<algorithm>`
 
-#### std::all_of, std::any_of, std::none_of
+##### std::all_of, std::any_of, std::none_of
 
-#### std::copy
+##### std::copy
 
-#### std::sort
+##### std::min
+
+##### std::sort
+
+#### `<cctype>`
+`<ctype.h>` in C standard library
+
+##### std::isalnum
+字母或数字则true
+
+##### std::isalpha
+字母则true
+
+##### std::isdigit
+数字则true
 
 
 #### `<exception>`
@@ -184,9 +198,18 @@ i != 0时为false,输出" ";
 ##### std::exception
 Provides consistent interface to handle errors through the throw expression
 
+#### `<fstream>`
 
+#### std::ifstream
+
+##### peek()
+字符流下一个
 
 #### `<functional>`
+
+##### std::function
+通用的多态函数包装器
+对C++中现有的可调用实体的一种类型安全的包裹
 
 
 ##### `std::greater<T>`
@@ -197,17 +220,17 @@ Provides consistent interface to handle errors through the throw expression
 
 #### `<iostream>`
 
-##### std::cerr
+##### `std::cerr`
 
 
 
 #### `<memory>`
 
-##### std::make_unique
+##### `std::make_unique`
 C++14
 构建unique_ptr指向新对象
 
-##### std::make_unique_for_overwrite
+##### `std::make_unique_for_overwrite`
 C++20
 
 ##### std::share_ptr
@@ -271,6 +294,13 @@ class tuple;
 实现移动语义, 避免拷贝, 从而提升性能
 
 
+#### other
+
+##### dynamic_cast
+安全地将指针和引用沿继承层次结构向上、向下和横向转换为类
+存在开销, 主要用于向下
+
+
 ***
 
 ### 语法
@@ -322,3 +352,9 @@ class tuple;
 
 
 ***
+
+
+### CRTP
+Curiously Recurring Template Pattern
+奇异递归模板模式
+
