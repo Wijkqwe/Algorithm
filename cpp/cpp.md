@@ -286,6 +286,12 @@ class tuple;
 按照索引顺序访问其中的元素
 大小在编译时确定，不支持动态添加或移除元素
 
+#### `<unordered_map>`
+
+##### std::unordered_map<Key,T,Hash,KeyEqual,Allocator>::count
+计算给定键的个数, 即检查是否存在键
+
+
 
 #### `<utility>`
 
