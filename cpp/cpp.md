@@ -10,12 +10,75 @@
 * fabs()
 浮点数绝对值
 
+
 #### 位运算
 * lowbit()
 计算二进制中最低位的1
-`
-#define lowbit(x) ((x)&(-x))
-`
+`#define lowbit(x) ((x)&(-x))`
+
+
+#### 幂运算
+
+快速模幂运算
+```cpp
+//: 快速模幂运算 a ^ s mod d
+ll quick_mod_pow(ll a, ll s, ll d)
+{
+    ll res = 1;
+    a %= d;
+    while (s)
+    {
+        if (s & 1)
+            res = (res * a) % d;
+        s >>= 1;
+        a = (a * a) % d;
+    }
+    return res;
+}
+```
+
+
+#### gcd最大公约数
+
+欧几里得算法
+```cpp
+//: 欧几里得算法求两数 GCD
+int ojld_gcd(int a, int b)
+{
+    while (b != 0)
+    {
+        int temp = b;
+        b = a % b;
+        a = temp;
+    }
+    return a;
+}
+```
+
+Stein算法
+```cpp
+//: Stein算法
+int binary_gcd(int u, int v)
+{
+    if (u == 0)
+        return v;
+    if (v == 0)
+        return u;
+    int shift = __builtin_ctz(u | v);  // 公共因子 2 的幂次
+    u >>= __builtin_ctz(u);            // 移除 u 中的因子 2
+    do
+    {
+        v >>= __builtin_ctz(v);  // 移除 v 中的因子 2
+        if (u > v)
+            swap(u, v);
+        v -= u;
+    } while (v != 0);
+    return u << shift;
+}
+```
+
+
+
 
 #### 查找
 * lower_bound()`#include <algorithm>`
@@ -200,7 +263,7 @@ Provides consistent interface to handle errors through the throw expression
 
 #### `<fstream>`
 
-#### std::ifstream
+##### std::ifstream
 
 ##### peek()
 字符流下一个
@@ -305,6 +368,18 @@ class tuple;
 ##### dynamic_cast
 安全地将指针和引用沿继承层次结构向上、向下和横向转换为类
 存在开销, 主要用于向下
+
+
+***
+
+
+### Third-Party Library
+
+#### <gmpxx.h>
+GNU Multiple Precision Arithmetic Library (GMP)
+大整数算术运算
+
+
 
 
 ***
