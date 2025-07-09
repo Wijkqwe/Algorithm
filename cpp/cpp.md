@@ -19,7 +19,7 @@
 
 #### 幂运算
 
-快速模幂运算
+##### 快速模幂运算
 ```cpp
 //: 快速模幂运算 a ^ s mod d
 ll quick_mod_pow(ll a, ll s, ll d)
@@ -40,7 +40,13 @@ ll quick_mod_pow(ll a, ll s, ll d)
 
 #### gcd最大公约数
 
-欧几里得算法
+##### std::gcd()
+Add in C++17`<numeric>`
+
+##### std::__gcd()
+`<algorithm>`特定于libstdc++内部
+
+##### 欧几里得算法
 ```cpp
 //: 欧几里得算法求两数 GCD
 int ojld_gcd(int a, int b)
@@ -55,7 +61,7 @@ int ojld_gcd(int a, int b)
 }
 ```
 
-Stein算法
+##### Stein算法
 ```cpp
 //: Stein算法
 int binary_gcd(int u, int v)
@@ -232,7 +238,6 @@ i != 0时为false,输出" ";
 [Web](https://en.cppreference.com/w/cpp/standard_library)
 
 
-
 #### `<algorithm>`
 
 ##### std::all_of, std::any_of, std::none_of
@@ -303,6 +308,12 @@ Added in C++11
 ##### std::unique_ptr
 Added in C++11
 智能指针
+
+
+#### `<numeric>`
+
+##### std::gcd()
+Added in C++17
 
 
 #### `<stdexcept>`
