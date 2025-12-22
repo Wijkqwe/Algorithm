@@ -2,18 +2,17 @@
 
 ***
 
+# CPP
+
 ### 函数
 
 #### 绝对值
-* abs()
-整数绝对值
-* fabs()
-浮点数绝对值
+* abs(): 整数绝对值
+* fabs(): 浮点数绝对值
 
 
 #### 位运算
-* lowbit()
-计算二进制中最低位的1
+* lowbit(): 计算二进制中最低位的1
 `#define lowbit(x) ((x)&(-x))`
 
 
@@ -84,8 +83,6 @@ int binary_gcd(int u, int v)
 ```
 
 
-
-
 #### 查找
 * lower_bound()`#include <algorithm>`
 底层二分,有序查找,返回第一个不小于val的位置
@@ -99,14 +96,10 @@ ForwardIterator lower_bound (ForwardIterator first, ForwardIterator last,  const
 
 #### GCC built-in function
 [Web](https://gcc.gnu.org/onlinedocs/gcc/Other-Builtins.html)
-* `__builtin_ctz`
-这个函数作用是返回输入数二进制表示从最低位开始(右起)的连续的0的个数；如果传入0则行为未定义。三个函数分别用于unsigned int，unsigned long以及unsigned long long
-`int __builtin_ctz (unsigned int x)`
-Returns the number of trailing 0-bits in x, starting at the least significant bit position. If x is 0, the result is undefined.
-`int __builtin_ctzl (unsigned long)`
-Similar to __builtin_ctz, except the argument type is unsigned long.
-`int __builtin_ctzll (unsigned long long)`
-Similar to __builtin_ctz, except the argument type is unsigned long long.
+* `__builtin_ctz`: 这个函数作用是返回输入数二进制表示从最低位开始(右起)的连续的0的个数；如果传入0则行为未定义。三个函数分别用于unsigned int，unsigned long以及unsigned long long
+    - `int __builtin_ctz (unsigned int x)`: Returns the number of trailing 0-bits in x, starting at the least significant bit position. If x is 0, the result is undefined.
+    - `int __builtin_ctzl (unsigned long)`: Similar to __builtin_ctz, except the argument type is unsigned long.
+    - `int __builtin_ctzll (unsigned long long)`: Similar to __builtin_ctz, except the argument type is unsigned long long.
 
     ```c
     int __builtin_ctzl(unsigned long x) 
@@ -396,7 +389,6 @@ GNU Multiple Precision Arithmetic Library (GMP)
 ***
 
 ### 语法
-
 
 #### 循环
 
